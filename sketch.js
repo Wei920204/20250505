@@ -8,6 +8,8 @@ let hands = [];
 let circleX = 320; // 圓的初始 X 座標
 let circleY = 240; // 圓的初始 Y 座標
 let circleSize = 100; // 圓的寬高
+let isDragging = false; // 是否正在拖曳圓
+let lastX, lastY; // 儲存手指的上一個位置
 
 function preload() {
   // Initialize HandPose model with flipped video input
@@ -49,10 +51,30 @@ function draw() {
         // 計算食指與圓心的距離
         let d = dist(indexFinger.x, indexFinger.y, circleX, circleY);
 
-        // 如果食指接觸到圓，讓圓跟隨食指移動
+        // 如果食指接觸到圓，讓圓跟隨食指移動，並畫出軌跡
         if (d < circleSize / 2) {
+          if (!isDragging) {
+            // 開始拖曳時初始化上一個位置
+            lastX = indexFinger.x;
+            lastY = indexFinger.y;
+          }
+          isDragging = true;
+
+          // 畫出手指的軌跡
+          stroke(255, 0, 0); // 紅色
+          strokeWeight(2);
+          line(lastX, lastY, indexFinger.x, indexFinger.y);
+
+          // 更新圓的位置
           circleX = indexFinger.x;
           circleY = indexFinger.y;
+
+          // 更新上一個位置
+          lastX = indexFinger.x;
+          lastY = indexFinger.y;
+        } else {
+          // 如果手指離開圓，停止拖曳
+          isDragging = false;
         }
 
         // 繪製食指的點
