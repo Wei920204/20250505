@@ -31,15 +31,15 @@ function setup() {
   video = createCapture(VIDEO, { flipped: true });
   video.hide();
 
-  // Start detecting hands
-  handPose.detectStart(video, gotHands);
-
   // 設定背景為白色，讓軌跡可以永久保留
   background(255);
+
+  // Start detecting hands
+  handPose.detectStart(video, gotHands);
 }
 
 function draw() {
-  // 將影像疊加在背景上
+  // 疊加影像，不覆蓋背景
   image(video, 0, 0);
 
   // 畫出圓形
