@@ -34,18 +34,39 @@ function draw() {
   if (hands.length > 0) {
     for (let hand of hands) {
       if (hand.confidence > 0.1) {
-        // Loop through keypoints and draw circles
-        for (let i = 0; i < hand.keypoints.length; i++) {
-          let keypoint = hand.keypoints[i];
+        // Set color based on handedness
+        if (hand.handedness == "Left") {
+          stroke(255, 0, 255); // Magenta for left hand
+        } else {
+          stroke(255, 255, 0); // Yellow for right hand
+        }
+        strokeWeight(2);
 
-          // Color-code based on left or right hand
-          if (hand.handedness == "Left") {
-            fill(255, 0, 255);
-          } else {
-            fill(255, 255, 0);
-          }
+        // Draw lines for keypoints 0-4
+        for (let i = 0; i < 4; i++) {
+          let kp1 = hand.keypoints[i];
+          let kp2 = hand.keypoints[i + 1];
+          line(kp1.x, kp1.y, kp2.x, kp2.y);
+        }
 
+        // Draw lines for keypoints 5-8
+        for (let i = 5; i < 8; i++) {
+          let kp1 = hand.keypoints[i];
+          let kp2 = hand.keypoints[i + 1];
+          line(kp1.x, kp1.y, kp2.x, kp2.y);
+        }
+
+        // Draw lines for keypoints 9-12
+        for (let i = 9; i < 12; i++) {
+          let kp1 = hand.keypoints[i];
+          let kp2 = hand.keypoints[i + 1];
+          line(kp1.x, kp1.y, kp2.x, kp2.y);
+        }
+
+        // Optionally, draw circles for all keypoints
+        for (let keypoint of hand.keypoints) {
           noStroke();
+          fill(hand.handedness == "Left" ? color(255, 0, 255) : color(255, 255, 0));
           circle(keypoint.x, keypoint.y, 16);
         }
       }
