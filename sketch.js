@@ -31,9 +31,13 @@ function setup() {
 
   // Start detecting hands
   handPose.detectStart(video, gotHands);
+
+  // 設定背景為白色，讓軌跡可以永久保留
+  background(255);
 }
 
 function draw() {
+  // 將影像疊加在背景上
   image(video, 0, 0);
 
   // 畫出圓形
@@ -62,7 +66,7 @@ function draw() {
 
           // 畫出手指的軌跡
           stroke(255, 0, 0); // 紅色
-          strokeWeight(2);
+          strokeWeight(10); // 線條粗細為 10
           line(lastX, lastY, indexFinger.x, indexFinger.y);
 
           // 更新圓的位置
@@ -81,55 +85,6 @@ function draw() {
         fill(255, 0, 0); // 紅色
         noStroke();
         circle(indexFinger.x, indexFinger.y, 16);
-
-        // Set color based on handedness
-        if (hand.handedness == "Left") {
-          stroke(255, 0, 255); // Magenta for left hand
-        } else {
-          stroke(255, 255, 0); // Yellow for right hand
-        }
-        strokeWeight(2);
-
-        // Draw lines for keypoints 0-4
-        for (let i = 0; i < 4; i++) {
-          let kp1 = hand.keypoints[i];
-          let kp2 = hand.keypoints[i + 1];
-          line(kp1.x, kp1.y, kp2.x, kp2.y);
-        }
-
-        // Draw lines for keypoints 5-8
-        for (let i = 5; i < 8; i++) {
-          let kp1 = hand.keypoints[i];
-          let kp2 = hand.keypoints[i + 1];
-          line(kp1.x, kp1.y, kp2.x, kp2.y);
-        }
-
-        // Draw lines for keypoints 9-12
-        for (let i = 9; i < 12; i++) {
-          let kp1 = hand.keypoints[i];
-          let kp2 = hand.keypoints[i + 1];
-          line(kp1.x, kp1.y, kp2.x, kp2.y);
-        }
-
-        // Draw lines for keypoints 13-16
-        for (let i = 13; i < 16; i++) {
-          let kp1 = hand.keypoints[i];
-          let kp2 = hand.keypoints[i + 1];
-          line(kp1.x, kp1.y, kp2.x, kp2.y);
-        }
-
-        // Draw lines for keypoints 17-20
-        for (let i = 17; i < 20; i++) {
-          let kp1 = hand.keypoints[i];
-          let kp2 = hand.keypoints[i + 1];
-          line(kp1.x, kp1.y, kp2.x, kp2.y);
-        }
-        // Optionally, draw circles for all keypoints
-        for (let keypoint of hand.keypoints) {
-          noStroke();
-          fill(hand.handedness == "Left" ? color(255, 0, 255) : color(255, 255, 0));
-          circle(keypoint.x, keypoint.y, 16);
-        }
       }
     }
   }
